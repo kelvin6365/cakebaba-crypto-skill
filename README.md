@@ -2,7 +2,7 @@
 
 A comprehensive cryptocurrency trading analysis skill based on **Dow Theory 123 Rule**, **Engulfing Pattern**, and **2B Rule** from [CAKEBABA 頻道](https://www.youtube.com/c/cakebaba). Provides detailed technical analysis, risk assessment, and leveraged trading recommendations (10x/50x/100x).
 
-> **CAKEBABA (蛋糕寶寶)** - 專業加密貨幣交易教育頻道，分享技術分析、趨勢交易和風險管理策略。
+> **CAKEBABA (蛋糕爸爸)** - 專業加密貨幣交易教育頻道，分享技術分析、趨勢交易和風險管理策略。
 
 ## Features
 
@@ -18,7 +18,7 @@ A comprehensive cryptocurrency trading analysis skill based on **Dow Theory 123 
 
 ## About CAKEBABA
 
-This skill is based on trading strategies and educational content from **CAKEBABA (蛋糕寶寶)** - a professional cryptocurrency trading education channel.
+This skill is based on trading strategies and educational content from **CAKEBABA (蛋糕爸爸)** - a professional cryptocurrency trading education channel.
 
 **🎓 Learn More:**
 - **Website**: [https://www.cakebaba.com](https://www.cakebaba.com)
