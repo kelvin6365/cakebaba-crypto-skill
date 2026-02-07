@@ -297,7 +297,7 @@ This skill is for educational purposes. Use at your own risk.
 - **Website**: [https://www.cakebaba.com](https://www.cakebaba.com)
 - **YouTube**: [https://www.youtube.com/c/cakebaba](https://www.youtube.com/c/cakebaba)
 
-> **特別感謝 CAKEBABA 蛋糕寶寶頻道** - 本技能的交易策略和教育內容源自 CAKEBABA 頻道的專業分享，包括道氏理論 123 法則、吞沒型態、假突破假跌破等核心交易方法。
+> **特別感謝 CAKEBABA 蛋糕爸爸頻道** - 本技能的交易策略和教育內容源自 CAKEBABA 頻道的專業分享，包括道氏理論 123 法則、吞沒型態、假突破假跌破等核心交易方法。
 
 ---
 
