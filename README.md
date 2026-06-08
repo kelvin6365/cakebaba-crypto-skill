@@ -1,306 +1,209 @@
-# Cakebaba Crypto Trading Skill
+# Cakebaba Crypto Trading Skill (v2.4)
 
-A comprehensive cryptocurrency trading analysis skill based on **Dow Theory 123 Rule**, **Engulfing Pattern**, and **2B Rule** from [CAKEBABA 頻道](https://www.youtube.com/c/cakebaba). Provides detailed technical analysis, risk assessment, and leveraged trading recommendations (10x/50x/100x).
+A professional, **trading-desk-grade** cryptocurrency analysis skill that reflects the full trading philosophy of [CAKEBABA 蛋糕爸爸](https://www.youtube.com/c/cakebaba). It runs a **5-layer, Top-Down framework** (Macro → Smart Money → Cross-Market → Technical → Liquidation/Execution → Risk) and gates every recommendation behind a **17-item Pre-Trade Checklist** that defaults to _reject_.
 
-> **CAKEBABA (蛋糕爸爸)** - 專業加密貨幣交易教育頻道，分享技術分析、趨勢交易和風險管理策略。
+> **CAKEBABA (蛋糕爸爸)** — 香港 / 中文圈專業加密貨幣分析師，18 年交易經驗。核心理念:**獨立分析、risk-first、理解原理而非背組合、Top-Down 時框、小刀鋸大樹。**
+
+> ⚠️ **v2.0 起這已不是散戶級單一形態工具。** 它是一個多層次框架,預設 **1h / 4h** 為主時框(5m 視為噪音),並以保護資本為第一原則。
+
+---
+
+## What's New since v1.0
+
+| 版本     | 重點                                                                                                                        |
+| -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **v2.0** | 5-layer 框架、15 references、17 項 checklist、timeframe-adaptive volume(8 年 BTC backtest 驗證)、100x「小刀鋸大樹」嚴格紀律 |
+| **v2.1** | 整合 CAKEBABA YouTube 教學(K 線原理、Liquidation Hunting、Smart Money)                                                      |
+| **v2.2** | Live Trade Log(實戰紀錄)                                                                                                    |
+| **v2.3** | 熊旗/牛旗、熊市 W 底誘多陷阱、熊市週期計數、Fibonacci 負延伸、MSTR/NVDA bellwether                                          |
+| **v2.4** | 止跌下影線比例標準、時間慣性(週三 + 擊穿後 3.5 日)、大跌市 2B 反彈 playbook、ETF AUM 萎縮確認、SpaceX IPO 流動性抽走機制    |
+
+---
+
+## The 5-Layer Framework
+
+1. **Layer 1 — Macro 大格局(最高優先)**: Macro Scenario(Goldilocks / Reflation / Stagflation / Deflation)、Smart Money & ETF flow + **總 AUM 趨勢**、季節性(五窮六絕七翻身)+ Halving Cycle。
+2. **Layer 2 — 跨市場 Context**: SPY / Gold / DXY / Oil / 10Y、ETH/BTC ratio、時段與假期效應、重大事件(FOMC / CPI / 大型 IPO)。
+3. **Layer 3 — BTC Technical (Top-Down)**: 多時框(**月 → 週 → 4h → 1h**)、市場狀態(趨勢 vs 橫盤)、大型結構(M/W/Triangle/Wedge/Channel/**Flag 熊旗牛旗**)、Fibonacci(含 **負延伸**做下跌目標)、S/R Zone Score。
+4. **Layer 4 — Liquidation & 入場執行**: Coinglass heatmap、Cascade Liquidation、**timeframe-adaptive 成交量**、**反向資金費率**解讀、K 線形態(吞沒 / 2B / 123)+ **大跌市 2B 反彈 playbook**。
+5. **Layer 5 — 風險管理**: R/R ≥ 1:3、**爆倉價計算(`calculate_liquidation.py`,5 個槓桿級別)**、倉位 sizing、100x 嚴格 gate。
 
 ## Features
 
-- 🎯 **123 Rule Detection**: Identifies trend reversals using Dow Theory
-- 📊 **Technical Analysis**: RSI, MACD, Moving Averages, Support/Resistance, ATR
-- 🕯️ **Engulfing Pattern (吞沒型態)**: High-probability reversal signals at key S/R zones
-- 🔄 **2B Rule (假突破/假跌破)**: False breakout/breakdown detection for precision entries
-- 📈 **Trend Identification**: HH/HL (uptrend), LL/LH (downtrend), consolidation patterns
-- ⚖️ **Leverage-Specific Recommendations**: Tailored advice for 10x, 50x, and 100x leverage
-- 🛡️ **Risk Management**: Position sizing, stop-loss calculations, risk/reward ratios
-- 🖼️ **Chart Analysis**: Supports image-based K-line chart analysis
-- 🔄 **Flexible Data Input**: Manual input, API auto-fetch, or chart screenshots
-
-## About CAKEBABA
-
-This skill is based on trading strategies and educational content from **CAKEBABA (蛋糕爸爸)** - a professional cryptocurrency trading education channel.
-
-**🎓 Learn More:**
-- **Website**: [https://www.cakebaba.com](https://www.cakebaba.com)
-- **YouTube Channel**: [https://www.youtube.com/c/cakebaba](https://www.youtube.com/c/cakebaba)
-
-**Key Patterns Taught by CAKEBABA:**
-| Pattern | Win Rate | Description |
-|---------|----------|-------------|
-| Engulfing (吞沒型態) | 50-55% (alone), 60-75% (combined) | Large candle covering previous candle(s) at key S/R |
-| 2B Rule (假突破) | 50-55% (alone), 60-70% (combined) | False breakout/breakdown with quick reversal |
-| 2B + Engulfing | **60-65%** | False move + engulfing confirmation |
-| 2B + 123 Rule | **65-70%** | False breakout confirming trend reversal |
-| All Combined | **70-75%** | Highest probability setup |
+- 🌍 **Macro & Smart Money Layer**: Macro scenarios、ETF flow + AUM 趨勢、Fund Manager Survey、機構動向、bellwethers(MSTR / NVDA / SpaceX IPO)
+- 🔭 **Top-Down Multi-Timeframe**: 永遠由大睇細(月→週→4h→1h);時框衝突 = 強制 WAIT
+- 📈 **Structure Patterns**: M-top / W-bottom + neckline、Triangle / Wedge / Channel、**熊旗/牛旗 continuation**、熊市 W 底誘多陷阱(regime gate)
+- 🎯 **Liquidation Hunting**: Coinglass cluster、liquidity sweep、cascade liquidation setup
+- 🔄 **123 Rule / Engulfing / 2B**: 細時框 trigger,連同高勝率組合
+- 🕯️ **Quantified K-line**: 止跌反彈下影線比例(≥1/2 / ~1/3 / <1/4)
+- ⏱️ **Timing Inertia**: 一週高低點落週中(週三)+ 擊穿關鍵點後盤 3–3.5 日節奏
+- 💰 **Reverse Funding Rate**: 極端負費率 → 反向看多;熊市負費率 = 唔追空、等反彈高點
+- ⚖️ **Leverage-Specific + Liquidation Calc**: 10x / 25x / 50x / 75x / 100x 爆倉價 + SL 安全評估
+- 🛡️ **Risk-First, Reject-by-Default**: 17 項 checklist,score 唔夠強制 WAIT
 
 > 💡 **Promo Code**: Use code **"CAKEBABA"** for a 1-month TradingView trial
 
 ## Installation
 
-### Prerequisites
+### As a Claude Skill (recommended)
+
+Package the folder into a `.skill` file and upload via **Claude.ai → Settings → Capabilities → Skills**(移除舊版同名 → 上載新檔 → 啟用)。
+
+### Prerequisites for scripts
 
 ```bash
-# Optional: Install numpy for technical indicator calculations
-pip install numpy
+pip install numpy   # optional, for indicator calculations
 ```
 
-**No API keys required!** The data fetcher uses Binance's public API with Python's standard library.
+**No API keys required** — the data fetcher uses Binance's public API (CoinGecko fallback) with Python's standard library.
 
 ## Usage
 
-### Basic Usage
-
-Simply ask Claude about cryptocurrency trading:
+### Recommended prompt
 
 ```
-"Should I buy BTC?"
-"Analyze ETH, I'm thinking 50x long"
-"Is this a good time to sell?"
-[Upload chart image] "What do you think about this setup?"
+分析 BTC(或其他 crypto)用 cakebaba-crypto-skill 嘅完整 17 項 checklist:
+- 入場考慮:long / short
+- 資金:$X
+- 風險承受:保守 / 積極 / 100x 賭注
+
+請按 5 layer 框架輸出:Layer 1-5 scoring、17 項 checklist、三個槓桿級別建議、爆倉價、最終 Action(BUY/SELL/WAIT + 原因)。
 ```
 
-### Triggering the Skill
+### Common mistakes to avoid
 
-The skill activates when you mention:
-- Coin symbols: BTC, ETH, SOL, etc.
-- Trading actions: buy, sell, long, short
-- Leverage: 10x, 50x, 100x
-- Technical terms: chart, trend, analysis, 123 rule
-
-### Input Options
-
-1. **Coin Symbol Only**:
-   ```
-   "Analyze BTC"
-   ```
-   → Skill auto-fetches real-time data (if API configured)
-
-2. **Manual Data**:
-   ```
-   "BTC is at $50,000, up 3% today, RSI is 68, should I enter?"
-   ```
-   → Skill analyzes provided data
-
-3. **Chart Screenshot**:
-   ```
-   [Upload K-line chart] "Analyze this chart"
-   ```
-   → Skill performs visual pattern analysis
-
-4. **Mixed Input**:
-   ```
-   [Upload chart] "ETH, thinking 50x long, is this safe?"
-   ```
-   → Combines visual + context analysis
+- ❌ 唔好直接問「BTC 而家做多得唔得」→ 要求跑完 17 項 checklist
+- ❌ 唔好跳過 Macro Layer → Layer 1 預設主導
+- ❌ 唔好用 5m 做主時框 → 預設 1h / 4h
+- ❌ 唔好喺時框唔齊(1/4 或 0/4)嘅情況下用 100x → 致命條件
 
 ## Output Format
 
-The skill provides structured analysis reports:
-
 ```
-📊 BTC Professional Trading Analysis
+📊 BTC Professional Trading Analysis (Cakebaba 5-Layer)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-【Market Overview】
-• Current Price, 24h Change, Trend, Sentiment
+【Layer 1: Macro】 Scenario + 季節性 + Smart Money / AUM score
+【Layer 2: Cross-Market】 SPY / Gold / DXY / ETH-BTC / 事件
+【Layer 3: Technical (Top-Down)】 月→週→4h→1h、結構形態、Fib、S/R zone
+【Layer 4: Liquidation & Entry】 Coinglass cluster、volume、funding、K 線 trigger
+【Layer 5: Risk】 R/R、爆倉價、倉位
 
-【Dow Theory 123 Rule Analysis】
-• Trend Structure (HH/HL or LL/LH)
-• 123 Signal Status (Points 1, 2, 3)
-• Trendline levels
-• 2B False Breakout Risk
-
-【Technical Indicators】
-• RSI, MACD, Moving Averages
-• Key Support/Resistance Levels
-
-【Trading Recommendations】
-💼 CONSERVATIVE (10x) - Detailed entry/exit/risk
-⚡ AGGRESSIVE (50x) - Detailed entry/exit/risk
-🔥 EXTREME (100x) - Detailed entry/exit/risk
-
-【Risk Warnings】
-• Specific risks and invalidation levels
+✅ 17-項 Pre-Trade Checklist → Total Score: X / 17
+💼 10x / ⚡ 25x-50x / 🔥 100x 建議(各自 entry / SL / TP / 爆倉價)
+🎯 最終 Action: BUY / SELL / WAIT + 原因
 ```
+
+**Score 判讀:** 15-17/17 + Macro favorable + 4/4 時框 → 可考慮 100x;12-14/17 → 10x~50x;9-11/17 → 10x~25x;< 9/17 → 強制 WAIT。
 
 ## File Structure
 
 ```
 cakebaba-crypto-skill/
-├── SKILL.md                          # Core skill instructions
-├── README.md                          # This file
-├── references/                        # Knowledge base (CAKEBABA content)
-│   ├── dow-theory-123-rule.md        # Comprehensive 123 Rule guide
-│   ├── engulfing-pattern.md          # 吞沒型態 trading strategy
-│   ├── 2b-rule.md                    # 假突破/假跌破 detection
-│   ├── technical-indicators.md       # Indicator calculations & interpretations
-│   ├── trend-patterns.md             # HH/HL, LL/LH patterns
-│   └── risk-management.md            # Position sizing & leverage guidelines
-└── scripts/                           # Automation tools
-    ├── fetch_crypto_data.py          # Real-time data fetcher (no dependencies!)
-    └── calculate_indicators.py       # Technical indicator calculator
+├── SKILL.md                            # Core 5-layer framework (~1,190 lines)
+├── README.md                            # This file
+├── references/                          # Knowledge base (CAKEBABA content)
+│   ├── k-line-trading-rules.md         # 5 大核心哲學
+│   ├── multi-timeframe-analysis.md     # 由大睇細(月→週→4h→1h)
+│   ├── smart-money-tracking.md         # 機構動向、ETF flow、Survey
+│   ├── seasonal-macro.md               # 五窮六絕七翻身、Halving、4 Macro Scenarios
+│   ├── liquidation-hunting.md          # Coinglass、liquidity sweep、cascade
+│   ├── channel-fibonacci.md            # 通道 + Fibonacci 0.618 / 負延伸
+│   ├── cross-asset-correlation.md      # SPY/Gold/DXY/ETH-BTC + 假期
+│   ├── m-top-w-bottom.md               # 雙頂雙底 + neckline + measured move
+│   ├── market-regime.md                # 趨勢 vs 橫盤
+│   ├── funding-rate-interpretation.md  # Cakebaba 反向解讀
+│   ├── dow-theory-123-rule.md          # 道氏理論 123 法則
+│   ├── engulfing-pattern.md            # 吞沒型態
+│   ├── 2b-rule.md                      # 假突破/假跌破
+│   ├── trend-patterns.md               # HH/HL、LL/LH
+│   ├── technical-indicators.md         # RSI/MACD/MA
+│   └── risk-management.md              # 倉位、止損、槓桿
+└── scripts/
+    ├── fetch_crypto_data.py            # Real-time data (Binance + CoinGecko fallback)
+    ├── calculate_indicators.py         # RSI / MACD / MA
+    └── calculate_liquidation.py        # 爆倉價計算器(5 槓桿級別 + SL 安全評估)
 ```
 
 ## Scripts Usage
 
-### Fetch Real-Time Data
+### Fetch real-time data
 
 ```bash
-# Basic usage (no API key needed!)
-python scripts/fetch_crypto_data.py --symbol BTC
-
-# Get ticker only
-python scripts/fetch_crypto_data.py --symbol ETH --mode ticker
-
-# Get OHLCV data
-python scripts/fetch_crypto_data.py --symbol SOL --mode ohlcv --timeframe 1h
-
-# Full market summary
 python scripts/fetch_crypto_data.py --symbol BTC --mode summary --output btc_data.json
+python scripts/fetch_crypto_data.py --symbol ETH --mode ohlcv --timeframe 4h --limit 50
 ```
 
-### Calculate Technical Indicators
+### Calculate indicators
 
 ```bash
-# Calculate all indicators
-python scripts/calculate_indicators.py --file btc_data.json
-
-# Specific indicators only
 python scripts/calculate_indicators.py --file btc_data.json --indicators rsi macd ma
-
-# Save to file
-python scripts/calculate_indicators.py --file btc_data.json --output indicators.json
 ```
 
-## Key Concepts
+### Calculate liquidation price (v2.0+)
 
-### Dow Theory 123 Rule
+```bash
+# 一次過睇晒所有槓桿級別
+python scripts/calculate_liquidation.py --entry 65500 --direction short --all-leverages
 
-**Point 1**: Break of trendline
-**Point 2**: Failure to create new high/low
-**Point 3**: New low/high opposite to trend
+# 指定槓桿 + 評估止損安全度
+python scripts/calculate_liquidation.py --entry 65800 --leverage 25 --direction short --stop-loss 66650
+```
 
-**Signal**: All 3 points complete = 60-70% probability of trend reversal
+## Recommended Timeframes (CAKEBABA — v2.0+)
 
-### Engulfing Pattern (吞沒型態) - CAKEBABA Core Strategy
+> 🔁 **Reversed from v1.0.** 早期版本以 5m 為主;經 8 年 backtest 與 CAKEBABA 教學後,**預設改為 1h / 4h**,因為 5m 噪音極多、是過度交易的根源。
 
-**Bullish Engulfing** (at support):
-- Large green candle fully covers previous red candle(s)
-- Small lower shadow (<20% of candle) = stronger signal
-- Must occur at key support zone
-- Wait for candle close before entry
-- **Stop Loss**: Below engulfing candle low
+| Use case                   | Primary timeframe | Notes                           |
+| -------------------------- | ----------------- | ------------------------------- |
+| **Default analysis**       | **1h / 4h**       | 過濾 noise,信號可信度高 2–3 倍  |
+| **Trend / structure**      | 月 / 週 / 4h      | Top-Down 永遠由大睇細           |
+| **Scalping / 100x ambush** | 5m                | 只在完美 setup + 4/4 時框時使用 |
 
-**Bearish Engulfing** (at resistance):
-- Large red candle fully covers previous green candle(s)
-- Small upper shadow (<20% of candle) = stronger signal
-- Must occur at key resistance zone
-- Wait for candle close before entry
-- **Stop Loss**: Above engulfing candle high
+**Volume threshold 是 timeframe-adaptive(backtest 驗證):** 5m = 2.5× / 4h = 1.5× / Daily = 1.0× / 1W = 1.2×。
 
-**Win Rate**: 50-55% alone, 60-75% with confirmations
+> 教訓:1.5× volume threshold 喺日線太苛刻(8 年只 23 trades);1.0× 喺日線先係 sweet spot。**永遠睇大樣本先信數據。**
 
-### 2B Rule (假突破/假跌破) - CAKEBABA Precision Entry
+## Key Concepts (high level)
 
-**Bullish 2B** (false breakdown):
-- Price briefly breaks support, reverses within 1-2 candles (5M timeframe)
-- Closes back above support zone
-- **Stop Loss**: Below false breakdown low (tight)
+- **Top-Down**: 大時框 = signal,小時框 = noise;用 noise 推翻 signal = 散戶蝕本根源。
+- **Macro & Smart Money trump Technical**: 單獨技術分析嘅 alpha 已被市場消化;edge 在 macro + smart money + technical 三維結合。
+- **Reverse Funding**: 加密市場大部分時間正費率;極端負費率 = 異常 = 過度恐慌 = 反向看多。熊市負費率 → 唔追空,等反彈高點做空。
+- **100x = ambush, not routine**: 細注(<2%)、接受 70–80% 失敗率、完美 setup 先入、賺時 20–50R 不對稱回報。
+- **Reject by default**: 「先學點樣輸少 D」;score 唔夠或任何致命條件 fail → 強制 WAIT。
 
-**Bearish 2B** (false breakout):
-- Price briefly breaks resistance, reverses within 1-2 candles
-- Closes back below resistance zone
-- **Stop Loss**: Above false breakout high (tight)
-
-**Win Rate**: 50-55% alone, 60-70% with confirmations
-
-### High-Probability Combinations
-
-| Combination | Win Rate | Best For |
-|-------------|----------|----------|
-| 2B + Engulfing | 60-65% | Precision entries at S/R |
-| 2B + 123 Rule | 65-70% | Trend reversal confirmation |
-| All Three | 70-75% | Highest probability setups |
-
-### Trend Types
-
-- **Uptrend**: Higher Highs (HH) + Higher Lows (HL)
-- **Downtrend**: Lower Lows (LL) + Lower Highs (LH)
-- **Consolidation**: Sideways movement between support/resistance
-
-### Risk Management by Leverage
-
-| Leverage | Risk/Trade | Stop-Loss | Min R:R | Skill Level |
-|----------|------------|-----------|---------|-------------|
-| 10x      | 2-3%       | 2-3%      | 1:3     | Intermediate |
-| 50x      | 1-1.5%     | 1-1.5%    | 1:6     | Advanced |
-| 100x     | 0.5-1%     | 0.5-1%    | 1:10    | Expert |
+詳見 `SKILL.md` 及 `references/` 內各文件。
 
 ## Important Warnings
 
-⚠️ **High Leverage = High Risk**:
-- 100x leverage: 1% adverse move = total liquidation
-- Only use leverage you understand and can afford to lose
-
-⚠️ **Not Financial Advice**:
-- This skill provides educational analysis only
-- 123 Rule is 60-70% reliable, not guaranteed
-- Always do your own research (DYOR)
-- Never trade with money you can't afford to lose
-
-⚠️ **Crypto Volatility**:
-- False breakouts (2B patterns) are very common
-- Always wait for candle close confirmation
-- Use stop-losses without exception
+⚠️ **High Leverage = High Risk** — 100x 槓桿 1% 逆向波動即可全倉爆倉。只用你理解且輸得起嘅槓桿。
+⚠️ **Not Financial Advice** — 教育用途,結合多重 confirmations 仍非保證;務必 DYOR,切勿用蝕唔起嘅錢交易。
+⚠️ **Crypto Volatility** — 假突破(2B)非常常見,務必等收 K 確認,無例外地用止損。
 
 ## Best Practices
 
-1. ✅ Always use stop-loss orders
-2. ✅ Wait for candle close confirmation (15min minimum)
-3. ✅ Confirm signals with multiple indicators
-4. ✅ Start with lower leverage (10x) until experienced
-5. ✅ Risk only 1-3% of capital per trade
-6. ✅ Scale out of positions at profit targets
-7. ✅ Review losing trades to learn
-8. ✅ Focus on left-side trading (at S/R zones) for better R:R
-9. ✅ Faster reversal = Stronger 2B signal
-
-## Recommended Timeframes (CAKEBABA Guidelines)
-
-| Market | Primary Timeframe | Acceptable Range | Notes |
-|--------|------------------|------------------|-------|
-| **Crypto (BTC/ETH)** | 5-minute | 5M - 15M | 1M too noisy; 5M recommended |
-| **Altcoins** | 5-minute | 5M - 15M | Lower liquidity requires caution |
-| **Stocks** | 1-hour | 1H - 4H | Lower liquidity = higher timeframe needed |
-| **Forex** | 1-hour | 1H - 4H | 24H for trend following |
-
-**Reversal Speed Requirements:**
-- 5-minute: Reversal within 1-3 candles (~15 min max)
-- 15-minute: Reversal within 1-2 candles (~30 min max)
-- 1-hour: Reversal within 1 candle (~1 hour max)
-
-**Key Point**: Faster reversal = Stronger 2B signal. Slow reversals (>5 candles on 5M) are weak or invalid.
-
-## Support
-
-For issues or questions:
-- Check the reference documents in `references/`
-- Review the SKILL.md for detailed instructions
-- Verify API configuration if auto-fetch isn't working
+1. ✅ 永遠設止損,並用 `calculate_liquidation.py` 確認 SL 喺爆倉價之前觸發
+2. ✅ 由大時框(月/週)定方向,再落 4h/1h 執行
+3. ✅ 跑完整 17 項 checklist;預設 reject
+4. ✅ 由低槓桿(10x)開始,熟練後先加
+5. ✅ 每筆風險 1–3% 資金;100x 倉位 <2%
+6. ✅ 分批止盈,核心倉達標平、留少量 trail 食 cascade
+7. ✅ 不賺小錢、不亏大錢;保住利潤先可複利
+8. ✅ 復盤每筆 trade(見 SKILL.md 的 Live Trade Log 慣例)
 
 ## License & Attribution
 
-This skill is for educational purposes. Use at your own risk.
+For educational purposes. Use at your own risk.
 
-**Trading strategies and educational content are based on [CAKEBABA 頻道](https://www.youtube.com/c/cakebaba)** - 專業加密貨幣交易教育頻道.
+**Trading strategies and educational content are based on [CAKEBABA 頻道](https://www.youtube.com/c/cakebaba)** — 專業加密貨幣交易教育頻道。
 
 - **Website**: [https://www.cakebaba.com](https://www.cakebaba.com)
 - **YouTube**: [https://www.youtube.com/c/cakebaba](https://www.youtube.com/c/cakebaba)
 
-> **特別感謝 CAKEBABA 蛋糕爸爸頻道** - 本技能的交易策略和教育內容源自 CAKEBABA 頻道的專業分享，包括道氏理論 123 法則、吞沒型態、假突破假跌破等核心交易方法。
+> **特別感謝 CAKEBABA 蛋糕爸爸頻道** — 本技能的交易策略與教育內容源自 CAKEBABA 頻道的專業分享:道氏理論 123 法則、吞沒型態、假突破假跌破、Smart Money / Macro、Liquidation Hunting、Top-Down 多時框等。
 
 ---
 
-**Remember**: Protecting capital is more important than making profits. The market will always be there—make sure you are too.
+**Remember**: Protecting capital is more important than making profits. The market will always be there — make sure you are too.
 
-**學習建議**: 觀看 [CAKEBABA 頻道](https://www.youtube.com/c/cakebaba) 的影片以深入理解這些交易策略。使用代碼 **"CAKEBABA"** 獲得 TradingView 1 個月免費試用。
+**學習建議**: 觀看 [CAKEBABA 頻道](https://www.youtube.com/c/cakebaba) 深入理解這些策略。使用代碼 **"CAKEBABA"** 獲得 TradingView 1 個月免費試用。
