@@ -50,9 +50,29 @@ A professional, **trading-desk-grade** cryptocurrency analysis skill that reflec
 
 ## Installation
 
-### As a Claude Skill (recommended)
+A helper script, **`skills.sh`**, handles packaging and local install:
 
-Package the folder into a `.skill` file and upload via **Claude.ai → Settings → Capabilities → Skills**(移除舊版同名 → 上載新檔 → 啟用)。
+```bash
+./skills.sh build       # → dist/cakebaba-crypto-skill.skill  (upload to Claude.ai)
+./skills.sh install     # → ~/.claude/skills/  (local Claude Code)
+./skills.sh reinstall   # refresh local copy after edits
+./skills.sh uninstall   # remove local copy
+./skills.sh status      # show build + install state
+```
+
+### Option A — Claude.ai (recommended)
+
+1. `./skills.sh build` — or grab the prebuilt `.skill` from the [Releases](../../releases) page.
+2. Upload `dist/cakebaba-crypto-skill.skill` via **Claude.ai → Settings → Capabilities → Skills**(移除舊版同名 → 上載新檔 → 啟用)。
+
+### Option B — Claude Code (local)
+
+```bash
+./skills.sh install     # copies into ~/.claude/skills/cakebaba-crypto-skill
+# INSTALL_MODE=symlink ./skills.sh install   # symlink instead (auto-tracks edits)
+```
+
+Restart Claude Code (or reload skills) to pick it up. Override the target with `CLAUDE_SKILLS_DIR=/path ./skills.sh install`.
 
 ### Prerequisites for scripts
 
@@ -107,6 +127,7 @@ pip install numpy   # optional, for indicator calculations
 cakebaba-crypto-skill/
 ├── SKILL.md                            # Core 5-layer framework (~1,240 lines)
 ├── README.md                            # This file
+├── skills.sh                            # build / install / uninstall helper
 ├── references/                          # Knowledge base (CAKEBABA content)
 │   ├── k-line-trading-rules.md         # 5 大核心哲學
 │   ├── multi-timeframe-analysis.md     # 由大睇細(月→週→4h→1h)
