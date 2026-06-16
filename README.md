@@ -1,4 +1,4 @@
-# Cakebaba Crypto Trading Skill (v2.4)
+# Cakebaba Crypto Trading Skill (v2.5)
 
 A professional, **trading-desk-grade** cryptocurrency analysis skill that reflects the full trading philosophy of [CAKEBABA 蛋糕爸爸](https://www.youtube.com/c/cakebaba). It runs a **5-layer, Top-Down framework** (Macro → Smart Money → Cross-Market → Technical → Liquidation/Execution → Risk) and gates every recommendation behind a **17-item Pre-Trade Checklist** that defaults to _reject_.
 
@@ -17,6 +17,7 @@ A professional, **trading-desk-grade** cryptocurrency analysis skill that reflec
 | **v2.2** | Live Trade Log(實戰紀錄)                                                                                                    |
 | **v2.3** | 熊旗/牛旗、熊市 W 底誘多陷阱、熊市週期計數、Fibonacci 負延伸、MSTR/NVDA bellwether                                          |
 | **v2.4** | 止跌下影線比例標準、時間慣性(週三 + 擊穿後 3.5 日)、大跌市 2B 反彈 playbook、ETF AUM 萎縮確認、SpaceX IPO 流動性抽走機制    |
+| **v2.5** | 機構底部目標階梯(淺/基準/深 3 檔)+ ETF 成本錨(~$38.5k)、減半 500 天時間錨(「邊個價 × 邊個時」)、現貨分階段抄底 Playbook、熊市正費率 = 砸盤燃料、IPO 頂部五折規律 |
 
 ---
 
@@ -37,7 +38,11 @@ A professional, **trading-desk-grade** cryptocurrency analysis skill that reflec
 - 🔄 **123 Rule / Engulfing / 2B**: 細時框 trigger,連同高勝率組合
 - 🕯️ **Quantified K-line**: 止跌反彈下影線比例(≥1/2 / ~1/3 / <1/4)
 - ⏱️ **Timing Inertia**: 一週高低點落週中(週三)+ 擊穿關鍵點後盤 3–3.5 日節奏
-- 💰 **Reverse Funding Rate**: 極端負費率 → 反向看多;熊市負費率 = 唔追空、等反彈高點
+- 💰 **Reverse Funding Rate**: 極端負費率 → 反向看多;熊市負費率 = 唔追空、等反彈高點;**熊市正費率(~+0.01%)= 砸盤燃料足 → 反彈高點做空**
+- 🏛️ **機構底部目標階梯 + ETF 成本錨**: 下跌目標分淺/基準/深 3 檔(BTC 例 $51-54k / $40-46k / $30-37k),ETF 全員水底割點 ~$38.5k
+- 🗓️ **減半 500 天時間錨**: 用減半慣性週期推演潛在抄底日(本輪 ≈ 2026-12-07),機構價位區 × 時間節點 = 「邊個價 × 邊個時」
+- 🛒 **現貨分階段抄底 Playbook**: 同合約搶反彈嚴格分倉;分批建倉、永遠留一大半籌碼、配置紀律先於方向判斷
+- 🆕 **IPO 頂部五折規律**: 重磅 IPO 上市日即頂部、由頂部往下 -50% 後橫盤先當價值區(CRCL 對標 -83%)
 - ⚖️ **Leverage-Specific + Liquidation Calc**: 10x / 25x / 50x / 75x / 100x 爆倉價 + SL 安全評估
 - 🛡️ **Risk-First, Reject-by-Default**: 17 項 checklist,score 唔夠強制 WAIT
 
@@ -100,13 +105,13 @@ pip install numpy   # optional, for indicator calculations
 
 ```
 cakebaba-crypto-skill/
-├── SKILL.md                            # Core 5-layer framework (~1,190 lines)
+├── SKILL.md                            # Core 5-layer framework (~1,240 lines)
 ├── README.md                            # This file
 ├── references/                          # Knowledge base (CAKEBABA content)
 │   ├── k-line-trading-rules.md         # 5 大核心哲學
 │   ├── multi-timeframe-analysis.md     # 由大睇細(月→週→4h→1h)
 │   ├── smart-money-tracking.md         # 機構動向、ETF flow、Survey
-│   ├── seasonal-macro.md               # 五窮六絕七翻身、Halving、4 Macro Scenarios
+│   ├── seasonal-macro.md               # 五窮六絕七翻身、Halving + 減半 500 天時間錨、4 Macro Scenarios
 │   ├── liquidation-hunting.md          # Coinglass、liquidity sweep、cascade
 │   ├── channel-fibonacci.md            # 通道 + Fibonacci 0.618 / 負延伸
 │   ├── cross-asset-correlation.md      # SPY/Gold/DXY/ETH-BTC + 假期
